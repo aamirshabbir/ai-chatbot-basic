@@ -2,7 +2,6 @@
 
 A modern, responsive rule-based chatbot built with vanilla JavaScript, HTML, and CSS. This project demonstrates fundamental chatbot development concepts with a clean, professional interface.
 
-![Chatbot Demo](./screenshots/chatbot-demo.gif)
 
 ## ✨ Features
 
@@ -111,10 +110,10 @@ This is **Phase 1** of a progressive chatbot development series:
 
 ## 📞 Connect
 
-**[Your Name]**
-- 📧 **Email**: [amirshabbir56@gmail.com](mailto:amirshabbir56@gmail.com)
-- 💼 **LinkedIn**: [linkedin.com/in/amir-shabbir](https://linkedin.com/in/amir-shabbir)  
-- 🐱 **GitHub**: [github.com/aamirshabbir](https://github.com/aamirshabbir)
+**Amir Shabbir**
+- 📧 **Email**: [Amir Shabbir](mailto:amirshabbir56@gmail.com)
+- 💼 **LinkedIn**: [Amir Shabbir](https://www.linkedin.com/in/amir-shabbir/)  
+- 🐱 **GitHub**: [Amir Shabbir](https://github.com/aamirshabbir)
 
 ---
 
