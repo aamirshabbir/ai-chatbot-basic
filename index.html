@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            🤖 AI Chatbot
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot">
+                <div class="message-bubble">
+                    👋 Hello! I'm your AI assistant. How can I help you today?
+                </div>
+            </div>
+        </div>
+        <div class="typing-indicator" id="typingIndicator">
+            <div class="typing-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Type your message..." maxlength="500">
+            <button class="send-button" id="sendButton">
+                ➤
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Rule-based responses
+        const chatRules = {
+            greetings: {
+                patterns: ['hi', 'hello', 'hey', 'good morning', 'good afternoon', 'good evening'],
+                responses: [
+                    "Hello! How can I help you today? 😊",
+                    "Hi there! What can I do for you?",
+                    "Hey! I'm here to assist you. What's on your mind?"
+                ]
+            },
+            goodbye: {
+                patterns: ['bye', 'goodbye', 'see you', 'farewell', 'see ya'],
+                responses: [
+                    "Goodbye! Have a great day! 👋",
+                    "See you later! Feel free to come back anytime!",
+                    "Farewell! It was nice chatting with you!"
+                ]
+            },
+            thanks: {
+                patterns: ['thank', 'thanks', 'thank you', 'thx'],
+                responses: [
+                    "You're welcome! Happy to help! 😊",
+                    "No problem at all!",
+                    "Glad I could assist you!"
+                ]
+            },
+            help: {
+                patterns: ['help', 'what can you do', 'capabilities', 'features'],
+                responses: [
+                    "I can help with basic questions, provide information, and have conversations! Try asking me about weather, time, or just chat with me!",
+                    "I'm here to assist! You can ask me questions, get information, or just have a friendly chat!"
+                ]
+            },
+            weather: {
+                patterns: ['weather', 'temperature', 'sunny', 'rainy', 'cloudy'],
+                responses: [
+                    "I'd love to help with weather info, but I don't have access to real-time data. Try checking a weather app! ☀️🌧️",
+                    "For current weather conditions, I recommend checking your local weather service!"
+                ]
+            },
+            time: {
+                patterns: ['time', 'what time', 'clock'],
+                responses: () => {
+                    const now = new Date();
+                    const timeString = now.toLocaleTimeString();
+                    const dateString = now.toLocaleDateString();
+                    return [
+                        `The current time is ${timeString} ⏰`,
+                        `It's ${timeString} right now!`,
+                        `Current time: ${timeString} on ${dateString} 📅`
+                    ];
+                }
+            },
+            name: {
+                patterns: ['your name', 'who are you', 'what are you'],
+                responses: [
+                    "I'm your AI chatbot assistant! I'm here to help and chat with you! 🤖",
+                    "I'm an AI chatbot created to assist and have conversations with you!"
+                ]
+            },
+            how_are_you: {
+                patterns: ['how are you', 'how do you feel', 'how are you doing'],
+                responses: [
+                    "I'm doing great, thanks for asking! How are you? 😊",
+                    "I'm wonderful! Ready to help you with anything you need!",
+                    "Fantastic! I'm here and ready to chat!"
+                ]
+            },
+            joke: {
+                patterns: ['joke', 'funny', 'make me laugh', 'humor'],
+                responses: [
+                    "Why don't scientists trust atoms? Because they make up everything! 😄",
+                    "I told my computer a joke about UDP... I'm not sure if it got it! 💻",
+                    "Why do programmers prefer dark mode? Because light attracts bugs! 🐛"
+                ]
+            }
+        };
+
+        const defaultResponses = [
+            "That's interesting! Tell me more about it.",
+            "I see! Can you elaborate on that?",
+            "Hmm, I'm not sure about that. Can you rephrase your question?",
+            "That's a good point! What else would you like to know?",
+            "I'm still learning! Can you ask me something else?"
+        ];
+
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendButton = document.getElementById('sendButton');
+        const typingIndicator = document.getElementById('typingIndicator');
+
+        function findMatchingRule(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            for (const [category, rule] of Object.entries(chatRules)) {
+                for (const pattern of rule.patterns) {
+                    if (lowerMessage.includes(pattern)) {
+                        // Handle dynamic responses (functions)
+                        if (typeof rule.responses === 'function') {
+                            return rule.responses();
+                        }
+                        return rule.responses;
+                    }
+                }
+            }
+            return null;
+        }
+
+        function getRandomResponse(responses) {
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+
+        function addMessage(message, isUser) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+            
+            const bubbleDiv = document.createElement('div');
+            bubbleDiv.className = 'message-bubble';
+            bubbleDiv.textContent = message;
+            
+            messageDiv.appendChild(bubbleDiv);
+            chatMessages.appendChild(messageDiv);
+            
+            // Auto-scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            typingIndicator.style.display = 'block';
+            chatMessages.appendChild(typingIndicator);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            typingIndicator.style.display = 'none';
+        }
+
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+            
+            // Add user message
+            addMessage(message, true);
+            chatInput.value = '';
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Simulate bot thinking time
+            setTimeout(() => {
+                hideTypingIndicator();
+                
+                // Find appropriate response
+                const matchingResponses = findMatchingRule(message);
+                let botResponse;
+                
+                if (matchingResponses) {
+                    botResponse = getRandomResponse(matchingResponses);
+                } else {
+                    botResponse = getRandomResponse(defaultResponses);
+                }
+                
+                addMessage(botResponse, false);
+            }, Math.random() * 1000 + 500); // Random delay between 500-1500ms
+        }
+
+        // Event listeners
+        sendButton.addEventListener('click', sendMessage);
+        
+        chatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Focus on input when page loads
+        window.addEventListener('load', () => {
+            chatInput.focus();
+        });
+    </script>
+</body>
+</html>
