@@ -1,8 +1,17 @@
-# 🤖 AI Chatbot - Rule-Based Version
 
-A modern, responsive rule-based chatbot built with vanilla JavaScript, HTML, and CSS. This project demonstrates fundamental chatbot development concepts with a clean, professional interface.
+# 🤖 AI Chatbot (Rule-Based)
 
-![Chatbot Demo](./screenshots/chatbot-demo.gif)
+A sleek, responsive rule-based chatbot built entirely with vanilla JavaScript, HTML, and CSS. This project showcases a professional, WhatsApp-inspired chat interface and demonstrates core chatbot development concepts—such as pattern matching, dynamic responses, and smooth user experience—without relying on any external libraries or frameworks.
+
+Key features include:
+- Pattern-based message recognition and smart responses
+- Animated typing indicators for realism
+- Auto-scroll and responsive design for all devices
+- Real-time clock and randomized reply variations
+
+<p align="center">
+    <img src="./screenshots/chatbot-demo.gif" alt="Chatbot Demo" width="350"/>
+</p>
 
 ## ✨ Features
 
